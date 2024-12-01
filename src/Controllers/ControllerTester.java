@@ -4,10 +4,12 @@ import Database.Database;
 import Exceptions.InvalidCredentialsException;
 import Exceptions.InvalidParamsException;
 import Exceptions.UnauthorizedException;
+import Models.PaymentModel;
 import Models.UserModel;
 import Models.WalletModel;
 import utils.ITester;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -247,8 +249,13 @@ public class ControllerTester implements ITester {
             params.put("category", "category");
             params.put("amount", 10);
 
-            WalletModel wallet = walletController.addIncome(params);
-            return wallet.incomes.stream().filter(income -> income.category.equals("category") && income.amount == 10).toArray().length == 1;
+            walletController.addIncome(params);
+
+            ArrayList<PaymentModel> withCategory = walletController.getIncomes(params);
+            params.remove("category");
+            ArrayList<PaymentModel> withoutCategory = walletController.getIncomes(params);
+
+            return withCategory.size() == 1 && withoutCategory.size() == 1;
         } catch (Exception e) {
             System.out.println("testAddIncomePositive failed");
             return false;
@@ -321,8 +328,13 @@ public class ControllerTester implements ITester {
             params.put("category", "category");
             params.put("amount", 10);
 
-            WalletModel wallet = walletController.addExpense(params);
-            return wallet.expenses.stream().filter(expense -> expense.category.equals("category") && expense.amount == 10).toArray().length == 1;
+            walletController.addExpense(params);
+
+            ArrayList<PaymentModel> withCategory = walletController.getExpenses(params);
+            params.remove("category");
+            ArrayList<PaymentModel> withoutCategory = walletController.getExpenses(params);
+
+            return withCategory.size() == 1 && withoutCategory.size() == 1;
         } catch (Exception e) {
             System.out.println("testAddExpensePositive failed");
             return false;
@@ -394,10 +406,18 @@ public class ControllerTester implements ITester {
             params.put("category", "category");
             params.put("amount", 10);
 
-            WalletModel wallet = walletController.addBudget(params);
-            return wallet.budget.get("category").equals(10);
+            walletController.addBudget(params);
+            Map<String, Integer> budget = walletController.getBudget(params);
+
+            params.put("amount", 5);
+            walletController.addExpense(params);
+            Map<String, Integer> restBudget = walletController.getRestBudget(params);
+            int restBudgetByCategory = walletController.getRestBudgetByCategory(params);
+            int totalIncomesWithoutExpenses = walletController.getTotalIncomesWithoutExpenses(params);
+
+            return budget.get("category") == 10 && restBudget.get("category") == 5 && restBudgetByCategory == 5 && totalIncomesWithoutExpenses == -5;
         } catch (Exception e) {
-            System.out.println("testAddBudgetPositive failed");
+            System.out.println("testAddBudgetPositive failed: " + e);
             return false;
         }
     }
@@ -452,5 +472,4 @@ public class ControllerTester implements ITester {
             return false;
         }
     }
-
 }
