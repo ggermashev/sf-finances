@@ -10,4 +10,13 @@ public class PaymentModel extends Model {
         this.category = category;
         title = "Payment";
     }
+
+    @Override
+    public String toString() {
+        return "<Model/PaymentModel>" + "id=" + this.getId() + ";" + "amount=" + this.amount + ";" + "category=" + this.category + "</Model/PaymentModel>";
+    }
+
+    public String getReadable() {
+        return category + ": " + amount;
+    }
 }

@@ -11,8 +11,12 @@ public abstract class Model {
         id = UUID.randomUUID();
     }
 
-    public UUID getId() {
-        return id;
+    public String getId() {
+        return id.toString();
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }
 

@@ -5,8 +5,6 @@ import Exceptions.InvalidCredentialsException;
 import Exceptions.InvalidParamsException;
 import Exceptions.UnauthorizedException;
 import Models.PaymentModel;
-import Models.UserModel;
-import Models.WalletModel;
 import utils.ITester;
 
 import java.util.ArrayList;
@@ -115,8 +113,8 @@ public class ControllerTester implements ITester {
         params.put("password", "password");
 
         try {
-            UserModel user = userController.createAccount(params);
-            return user != null;
+            Boolean success = userController.createAccount(params);
+            return success == true;
         } catch (Exception e) {
             System.out.println("testCreateAccountPositive failed");
             return false;
@@ -257,7 +255,7 @@ public class ControllerTester implements ITester {
 
             return withCategory.size() == 1 && withoutCategory.size() == 1;
         } catch (Exception e) {
-            System.out.println("testAddIncomePositive failed");
+            System.out.println("testAddIncomePositive failed: " + e);
             return false;
         }
     }
@@ -336,7 +334,7 @@ public class ControllerTester implements ITester {
 
             return withCategory.size() == 1 && withoutCategory.size() == 1;
         } catch (Exception e) {
-            System.out.println("testAddExpensePositive failed");
+            System.out.println("testAddExpensePositive failed: " + e);
             return false;
         }
     }

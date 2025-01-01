@@ -9,13 +9,12 @@ import Exceptions.UnauthorizedException;
 import Exceptions.UnknownRouteException;
 
 import java.util.Map;
-import java.util.function.Function;
 
 public class Router {
     UserController userController;
     WalletController walletController;
 
-    Router(Database database) {
+    public Router(Database database) {
         userController = new UserController(database);
         walletController = new WalletController(database);
     }
@@ -31,10 +30,22 @@ public class Router {
 
             case "/wallet/incomes/add":
                 return walletController.addIncome(params);
+            case "/wallet/incomes/get":
+                return walletController.getIncomes(params);
             case "/wallet/expenses/add":
                 return walletController.addExpense(params);
+            case "/wallet/expenses/get":
+                return walletController.getExpenses(params);
             case "/wallet/budget/add":
                 return walletController.addBudget(params);
+            case "/wallet/budget/get":
+                return walletController.getBudget(params);
+            case "/wallet/budget/rest":
+                return walletController.getRestBudget(params);
+            case "/wallet/budget/rest/by_category":
+                return walletController.getRestBudgetByCategory(params);
+            case "/wallet/incomes/total":
+                return walletController.getTotalIncomesWithoutExpenses(params);
 
             default:
                 throw new UnknownRouteException();

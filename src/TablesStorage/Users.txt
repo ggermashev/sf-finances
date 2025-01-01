@@ -1,0 +1,1 @@
+<Map>f243a119-e4d2-4179-bd15-3f416b9f2099:<Model/UserModel>id=f243a119-e4d2-4179-bd15-3f416b9f2099;login=log1;password=pw1</Model/UserModel>&db43718d-e597-4d4a-b7f1-cf862ee18990:<Model/UserModel>id=db43718d-e597-4d4a-b7f1-cf862ee18990;login=log;password=pw</Model/UserModel></Map>

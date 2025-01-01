@@ -18,4 +18,9 @@ public class UserModel extends Model {
     public boolean verify(String login, String password) {
         return this.login.equals(login) && this.password.equals(password);
     }
+
+    @Override
+    public String toString() {
+        return "<Model/UserModel>" + "id=" + this.getId() + ";" + "login=" + this.login + ";" + "password=" + this.password + "</Model/UserModel>";
+    }
 }

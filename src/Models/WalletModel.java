@@ -1,6 +1,8 @@
 package Models;
 
 
+import utils.FileManager;
+
 import java.util.*;
 
 public class WalletModel extends Model {
@@ -24,8 +26,17 @@ public class WalletModel extends Model {
         title = "Wallet";
     }
 
-    public UUID getUserId() {
-        return this.userId;
+    public WalletModel(String userId) {
+        this(UUID.fromString(userId));
+    }
+
+    public String getUserId() {
+        return this.userId.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "<Model/WalletModel>" + "id=" + this.getId() + ";" + "amount=" + this.amount + ";" + "totalIncomes=" + this.totalIncomes + ";" + "totalExpenses=" + this.totalExpenses + ";" + "incomes=" + FileManager.recursiveStringify(this.incomes) + ";" + "expenses=" + FileManager.recursiveStringify(this.expenses) + ";" + "budget=" + FileManager.recursiveStringify(this.budget) + ";" + "userId=" + this.userId.toString() + "</Model/WalletModel>";
     }
 }
 

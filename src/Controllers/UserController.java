@@ -14,7 +14,7 @@ public class UserController extends Controller {
         super(database);
     }
 
-    public UserModel createAccount(Map params) throws InvalidParamsException {
+    public Boolean createAccount(Map params) throws InvalidParamsException {
         String login = (String) params.get("login");
         String password = (String) params.get("password");
 
@@ -27,10 +27,10 @@ public class UserController extends Controller {
             database.create(user.title, user);
             WalletModel wallet = new WalletModel(user.getId());
             database.create("Wallet", wallet);
-            return user;
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return false;
         }
     }
 
@@ -53,7 +53,7 @@ public class UserController extends Controller {
         try {
             database.update(user.title, user);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return null;
         }
 
@@ -63,7 +63,7 @@ public class UserController extends Controller {
     public Boolean logout(Map params) throws UnauthorizedException {
         UUID accessToken = (UUID) params.get("accessToken");
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken == accessToken);
+        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
