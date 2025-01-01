@@ -7,70 +7,69 @@ import java.io.IOException;
 import java.util.*;
 
 public class Client {
-    static Database db = new Database();
-    static Router router = new Router(db);
+    static Database db;
+    static Router router;
     static Scanner scanner = new Scanner(System.in);
     static UUID accessToken = null;
 
     public static void main(String[] args) {
-        db.loadFromFile();
+        try (Database database = new Database()) {
+            db = database;
+            router = new Router(db);
 
-        while (true) {
-            Client.printMenu();
+            while (true) {
+                Client.printMenu();
 
-            int choice = -1;
-            try {
-                choice = scanner.nextInt();
-            } catch (Exception e) {
-                scanner.nextLine();
-            }
+                int choice = -1;
+                try {
+                    choice = scanner.nextInt();
+                } catch (Exception e) {
+                    scanner.nextLine();
+                }
 
-            System.out.println();
+                System.out.println();
 
-            switch (choice) {
-                case 1:
-                    createAccountHandler();
-                    break;
-                case 2:
-                    loginHandler();
-                    break;
-                case 3:
-                    logoutHandler();
-                    break;
-                case 4:
-                    addIncomesHandler();
-                    break;
-                case 5:
-                    addExpensesHandler();
-                    break;
-                case 6:
-                    addBudgetHandler();
-                    break;
-                case 7:
-                    getIncomesHandler();
-                    break;
-                case 8:
-                    getExpensesHandler();
-                    break;
-                case 9:
-                    getBudgetHandler();
-                    break;
-                case 10:
-                    getRestBudgetHandler();
-                    break;
-                case 0:
-                    try {
-                        quitHandler();
-                    } catch (IOException | TableNotFoundException e) {
-                        System.out.println(e);
-                    } finally {
+                switch (choice) {
+                    case 1:
+                        createAccountHandler();
+                        break;
+                    case 2:
+                        loginHandler();
+                        break;
+                    case 3:
+                        logoutHandler();
+                        break;
+                    case 4:
+                        addIncomesHandler();
+                        break;
+                    case 5:
+                        addExpensesHandler();
+                        break;
+                    case 6:
+                        addBudgetHandler();
+                        break;
+                    case 7:
+                        getIncomesHandler();
+                        break;
+                    case 8:
+                        getExpensesHandler();
+                        break;
+                    case 9:
+                        getBudgetHandler();
+                        break;
+                    case 10:
+                        getRestBudgetHandler();
+                        break;
+                    case 0:
                         return;
-                    }
-                default:
-                    System.out.println("Введен некорректный пункт меню");
-                    break;
+                    default:
+                        System.out.println("Введен некорректный пункт меню");
+                        break;
+                }
             }
-        }
+        } catch (Exception e) {}
+
+
     }
 
     private static void printMenu() {
@@ -87,10 +86,6 @@ public class Client {
         System.out.println("    10. Получить список оставшихся лимитов");
         System.out.println("    0. Выход из приложения");
         System.out.println();
-    }
-
-    private static void quitHandler() throws TableNotFoundException, IOException {
-        db.loadToFile();
     }
 
     private static void createAccountHandler() {

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 
-public class Database {
+public class Database implements AutoCloseable {
     private final Map<String, Map<String, Model>> tables;
 
     public Database() {
@@ -21,6 +21,8 @@ public class Database {
 
         tables.put("Wallet", new HashMap<>());
         tables.put("User", new HashMap<>());
+
+        loadFromFile();
     }
 
     public Model create(String table, Model entity) throws TableNotFoundException, EntityAlreadyExistsException {
@@ -69,12 +71,12 @@ public class Database {
         return tables.get(table).size();
     }
 
-    public void loadToFile() throws TableNotFoundException, IOException {
+    private void loadToFile() throws TableNotFoundException, IOException {
         FileManager.loadTableToFile("User", tables.get("User"));
         FileManager.loadTableToFile("Wallet", tables.get("Wallet"));
     }
 
-    public void loadFromFile() {
+    private void loadFromFile() {
         Map constructorsMap = new HashMap();
 
         var userModelFactory = new UserModelFactory();
@@ -93,5 +95,10 @@ public class Database {
         try {
             tables.put("Wallet", FileManager.loadTableFromFile("Wallet", constructorsMap));
         } catch (Exception e) {System.out.println(e);}
+    }
+
+    @Override
+    public void close() throws Exception {
+        loadToFile();
     }
 }
