@@ -12,7 +12,7 @@ public class RouterTester implements ITester {
     Router router;
 
     public RouterTester() {
-        Database database = new Database();
+        Database database = new Database(false);
         router = new Router(database);
     }
 
