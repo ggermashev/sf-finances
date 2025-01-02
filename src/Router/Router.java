@@ -3,10 +3,7 @@ package Router;
 import Controllers.UserController;
 import Controllers.WalletController;
 import Database.Database;
-import Exceptions.InvalidCredentialsException;
-import Exceptions.InvalidParamsException;
-import Exceptions.UnauthorizedException;
-import Exceptions.UnknownRouteException;
+import Exceptions.*;
 
 import java.util.Map;
 
@@ -19,7 +16,7 @@ public class Router {
         walletController = new WalletController(database);
     }
 
-    public Object call(String route, Map params) throws InvalidParamsException, UnknownRouteException, UnauthorizedException, InvalidCredentialsException {
+    public Object call(String route, Map params) throws InvalidParamsException, UnknownRouteException, UnauthorizedException, InvalidCredentialsException, EntityAlreadyExistsException {
         switch (route) {
             case "/user/create":
                 return userController.createAccount(params);

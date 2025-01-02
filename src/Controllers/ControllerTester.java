@@ -23,7 +23,7 @@ public class ControllerTester implements ITester {
     }
 
     private void beforeTest() {
-        Database database = new Database();
+        Database database = new Database(false);
         userController = new UserController(database);
         walletController = new WalletController(database);
     }

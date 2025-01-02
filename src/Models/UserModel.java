@@ -19,6 +19,10 @@ public class UserModel extends Model {
         return this.login.equals(login) && this.password.equals(password);
     }
 
+    public String getLogin() {
+        return login;
+    }
+
     @Override
     public String toString() {
         return "<Model/UserModel>" + "id=" + this.getId() + ";" + "login=" + this.login + ";" + "password=" + this.password + "</Model/UserModel>";

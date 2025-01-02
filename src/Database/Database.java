@@ -15,6 +15,7 @@ import java.util.function.Function;
 
 public class Database implements AutoCloseable {
     private final Map<String, Map<String, Model>> tables;
+    private boolean withTablesStorage;
 
     public Database() {
         tables = new HashMap<>();
@@ -23,6 +24,19 @@ public class Database implements AutoCloseable {
         tables.put("User", new HashMap<>());
 
         loadFromFile();
+        withTablesStorage = true;
+    }
+
+    public Database(boolean withTablesStorage) {
+        tables = new HashMap<>();
+
+        tables.put("Wallet", new HashMap<>());
+        tables.put("User", new HashMap<>());
+
+        this.withTablesStorage = withTablesStorage;
+        if (withTablesStorage) {
+            loadFromFile();
+        }
     }
 
     public Model create(String table, Model entity) throws TableNotFoundException, EntityAlreadyExistsException {
@@ -99,6 +113,8 @@ public class Database implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        loadToFile();
+        if (withTablesStorage) {
+            loadToFile();
+        }
     }
 }

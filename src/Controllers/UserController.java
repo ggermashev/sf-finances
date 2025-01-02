@@ -14,7 +14,7 @@ public class UserController extends Controller {
         super(database);
     }
 
-    public Boolean createAccount(Map params) throws InvalidParamsException {
+    public Boolean createAccount(Map params) throws InvalidParamsException, EntityAlreadyExistsException {
         String login = (String) params.get("login");
         String password = (String) params.get("password");
 
@@ -24,12 +24,17 @@ public class UserController extends Controller {
 
         UserModel user = new UserModel(login, password);
         try {
+            UserModel existingAccount = (UserModel) database.find(user.title, entity -> ((UserModel) entity).getLogin().equals(login));
+            if (existingAccount != null) {
+                throw new EntityAlreadyExistsException();
+            }
+
             database.create(user.title, user);
             WalletModel wallet = new WalletModel(user.getId());
             database.create("Wallet", wallet);
             return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (TableNotFoundException e) {
+            System.out.println(e);
             return false;
         }
     }

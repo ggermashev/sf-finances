@@ -1,21 +1,14 @@
-import Database.Database;
-import Exceptions.TableNotFoundException;
 import Models.PaymentModel;
-import Router.Router;
-
-import java.io.IOException;
 import java.util.*;
 
 public class Client {
-    static Database db;
-    static Router router;
+    static Server server;
     static Scanner scanner = new Scanner(System.in);
     static UUID accessToken = null;
 
     public static void main(String[] args) {
-        try (Database database = new Database()) {
-            db = database;
-            router = new Router(db);
+        try (Server _server = new Server()) {
+            server = _server;
 
             while (true) {
                 Client.printMenu();
@@ -100,7 +93,7 @@ public class Client {
         params.put("password", password);
         Boolean success = false;
         try {
-            success = (Boolean) router.call("/user/create", params);
+            success = (Boolean) server.call("/user/create", params);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -124,7 +117,7 @@ public class Client {
         params.put("password", password);
         UUID token = null;
         try {
-            token = (UUID) router.call("/user/login", params);
+            token = (UUID) server.call("/user/login", params);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -142,7 +135,7 @@ public class Client {
         params.put("accessToken", accessToken);
         Boolean success = false;
         try {
-            success = (Boolean) router.call("/user/logout", params);
+            success = (Boolean) server.call("/user/logout", params);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -169,7 +162,7 @@ public class Client {
 
         Boolean success = false;
         try {
-            success = (Boolean) router.call("/wallet/incomes/add", params);
+            success = (Boolean) server.call("/wallet/incomes/add", params);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -197,9 +190,9 @@ public class Client {
         Integer totalIncome = null;
         Integer restBudget = null;
         try {
-            success = (Boolean) router.call("/wallet/expenses/add", params);
-            totalIncome = (Integer) router.call("/wallet/incomes/total", params);
-            restBudget = (Integer) router.call("/wallet/budget/rest/by_category", params);
+            success = (Boolean) server.call("/wallet/expenses/add", params);
+            totalIncome = (Integer) server.call("/wallet/incomes/total", params);
+            restBudget = (Integer) server.call("/wallet/budget/rest/by_category", params);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -231,7 +224,7 @@ public class Client {
 
         Boolean success = false;
         try {
-            success = (Boolean) router.call("/wallet/budget/add", params);
+            success = (Boolean) server.call("/wallet/budget/add", params);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -256,7 +249,7 @@ public class Client {
         params.put("accessToken", accessToken);
 
         try {
-            var incomes = (ArrayList<PaymentModel>) router.call("/wallet/incomes/get", params);
+            var incomes = (ArrayList<PaymentModel>) server.call("/wallet/incomes/get", params);
             if (incomes.isEmpty()) {
                 System.out.println("Список доходов пуст!");
                 return;
@@ -289,7 +282,7 @@ public class Client {
         params.put("accessToken", accessToken);
 
         try {
-            var expenses = (ArrayList<PaymentModel>) router.call("/wallet/expenses/get", params);
+            var expenses = (ArrayList<PaymentModel>) server.call("/wallet/expenses/get", params);
             if (expenses.size() == 0) {
                 System.out.println("Список расходов пуст!");
                 return;
@@ -321,7 +314,7 @@ public class Client {
         params.put("accessToken", accessToken);
 
         try {
-            var budget = (Map<String, Integer>) router.call("/wallet/budget/get", params);
+            var budget = (Map<String, Integer>) server.call("/wallet/budget/get", params);
             if (category != null && budget.get(category) == null) {
                 System.out.println("Бюджет пуст!");
                 return;
@@ -358,10 +351,10 @@ public class Client {
 
         try {
             if (category != null) {
-                var budget = (Map<String, Integer>) router.call("/wallet/budget/rest/by_category", params);
+                var budget = (Map<String, Integer>) server.call("/wallet/budget/rest/by_category", params);
                 System.out.println("Оставшийся лимит по категории " + category + ": " + budget.get(category));
             } else {
-                var budget = (Map<String, Integer>) router.call("/wallet/budget/rest", params);
+                var budget = (Map<String, Integer>) server.call("/wallet/budget/rest", params);
                 int total = 0;
                 for (var amount: budget.values()) {
                     total += amount;

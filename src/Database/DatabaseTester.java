@@ -24,7 +24,7 @@ public class DatabaseTester implements ITester {
     }
 
     private void beforeTest() {
-        database = new Database();
+        database = new Database(false);
     }
 
     private boolean testPositive() {
