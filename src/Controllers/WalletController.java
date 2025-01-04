@@ -37,7 +37,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -76,7 +76,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -115,7 +115,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -150,7 +150,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -173,7 +173,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -194,7 +194,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -215,7 +215,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -245,7 +245,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
@@ -273,7 +273,7 @@ public class WalletController extends Controller {
             throw new UnauthorizedException();
         }
 
-        UserModel user = (UserModel) database.find("User", entity -> ((UserModel) entity).accessToken.equals(accessToken));
+        UserModel user = (UserModel) database.find("User", entity -> accessToken.equals(((UserModel) entity).accessToken));
         if (user == null) {
             throw new UnauthorizedException();
         }
